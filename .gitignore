@@ -1,0 +1,14 @@
+*.pyc
+__pycache__/
+.log
+build
+dist
+build
+log
+virtualenv
+.vscode
+config*
+log*
+test.py
+*.o
+env
