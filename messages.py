@@ -1,23 +1,26 @@
-from typing import List
-from pydantic import BaseModel, BaseConfig
-from typing import Optional
 from datetime import datetime
+from typing import List, Optional
+
+from pydantic import BaseConfig, BaseModel
 
 
 class Location(BaseModel):
 
-    timestamp: Optional[float] = None # float, but will be converted to builtin_interfaces/Time 
-    x: Optional[float] = None # float
-    y: Optional[float] = None # float
-    yaw: Optional[float] = None # float
+    timestamp: Optional[float] = (
+        None  # float, but will be converted to builtin_interfaces/Time
+    )
+    x: Optional[float] = None  # float
+    y: Optional[float] = None  # float
+    yaw: Optional[float] = None  # float
 
     obey_approach_speed_limit: Optional[bool] = False
     # Speed limit of the lane leading to this waypoint in m/s
     approach_speed_limit: Optional[float] = None
 
-    level_name: Optional[str] = None 
-    index: Optional[int] =None 
-    
+    level_name: Optional[str] = None
+    index: Optional[int] = None
+
+
 class Response(BaseModel):
     """
     Primary data structure for to WebAPI Response. Recieve responses to your requests in this json format.
@@ -26,6 +29,7 @@ class Response(BaseModel):
     data: Optional[dict] = None
     success: bool
     msg: str
+
 
 class Request(BaseModel):
     """
@@ -44,6 +48,31 @@ class Request(BaseModel):
     data: Optional[dict] = None #TODO:Implement this
     speed_limit: Optional[float] = None #TODO:Implement this
     toggle: Optional[bool] = None #TODO:Implement this
+
+    i.e.:
+        target (Request): A target is in the form described below
+            map_name='L1',
+            task='1',
+            destination=[
+                Location(
+                    timestamp=1701926411.0,
+                    x=45.26679617503545,
+                    y=-20.124650184482718,
+                    yaw=0.0,
+                    obey_approach_speed_limit=False,
+                    approach_speed_limit=None,
+                    level_name=None,
+                    index=21),
+                Location(
+                    timestamp=...,
+                    x=...,
+                    ...),
+                ...
+                Location(...)
+                ],
+            data=None,
+            speed_limit=0.0,
+            toggle=True)
     """
 
     # TODO: Update this to match current use of destination class
