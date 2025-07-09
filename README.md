@@ -1,6 +1,6 @@
 # **What Is This?**
 
-This is a **lightweight** `HTTP` server running **a simulated robot**, that is useful for testing [Open-RMF](https://www.open-rmf.org/) without reliance on hardware availability and reliability2.
+This is a **lightweight** `HTTP` server running **a simulated robot**, that is useful for testing [Open-RMF](https://www.open-rmf.org/) without reliance on hardware availability and reliability.
 
 # **Dependencies** 📚
 - python
@@ -40,3 +40,4 @@ You should see something similar to what is shown below:
 ### **Maintainer(s)** 👓
 
 - [jn-chng](https://github.com/jh-chng)
+- [cardboardcode](https://github.com/cardboardcode)
