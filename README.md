@@ -1,6 +1,6 @@
 # **What Is This?**
 
-This is a `HTTP` server running a simulated robot, that is useful for testing [Open-RMF](https://www.open-rmf.org/) among other things.
+This is a **lightweight** `HTTP` server running **a simulated robot**, that is useful for testing [Open-RMF](https://www.open-rmf.org/) without reliance on hardware availability and reliability.
 
 # **Dependencies**
 - python
