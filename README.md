@@ -19,3 +19,7 @@ python3 -m invisibot
 ### **Verify**
 
 Access endpoints on http://localhost:8080/docs
+
+### **Maintainer(s)**
+
+- [jn-chng](https://github.com/jh-chng)
