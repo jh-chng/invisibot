@@ -1,19 +1,21 @@
-# Invisibot
+# **What Is This?**
 
-This is a HTTP server running a simulated robot, that is useful for testing Open-RMF among other things. 
-# Required dependencies
+This is a `HTTP` server running a simulated robot, that is useful for testing Open-RMF among other things.
+
+# **Dependencies**
 - python
 - pip
 
-# Install dependencies
+# **Build**
 ```
 python3 -m venv env
 source ./env/bin/activate
 pip install uvicorn pydantic fastapi
 ```
-# Run
+# **Run**
 ```
 python3 -m invisibot
 ```
-### Endpoints available
-You can check out the endpoints on http://localhost:8080/docs
+### **Verify**
+
+Access endpoints on http://localhost:8080/docs
