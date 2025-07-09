@@ -7,7 +7,6 @@ import time
 # For debug
 import traceback
 
-import logger as lg
 import uvicorn
 from differential_drive import Invisibot
 from fastapi import FastAPI
@@ -170,8 +169,6 @@ class ApiServer:
 
 
 def main():
-    logger = lg.init_logger("HIC_MAIN")
-
     parser = argparse.ArgumentParser(
         prog="invisibot", description="Configure and spin up the invisibot"
     )
@@ -201,7 +198,7 @@ def main():
 
     except Exception as e:
 
-        logger.info(
+        print(
             f"Error trying to open with error {e}. Try running with the -c or --help flag"
         )
         sys.exit(-1)
