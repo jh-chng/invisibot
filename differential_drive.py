@@ -185,6 +185,18 @@ class Invisibot:
             self.cmd_id = cmd_id
             print("Done with ", cmd_id)
             self.move_flag = False
+            
+    def move_to_point(
+        self, target_x: float, target_y: float, target_yaw: float,
+        floor: str = "L1"):
+        temp_dest = Request()
+        temp_dest.map_name = dest.level_name
+        if dest.level_name is None:
+            print("Target floor name is None, using default floor")
+            temp_dest.map_name = self.ib.floor
+        temp_dest.destination = [dest]
+        self.ib.move(dest.index, temp_dest)
+
 
     def move(self, cmd_id: int, target: Request):
         """Pushes the next target onto the queue, FIFO. The bot pops off the
