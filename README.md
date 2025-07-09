@@ -1,12 +1,12 @@
 # **What Is This?**
 
-This is a **lightweight** `HTTP` server running **a simulated robot**, that is useful for testing [Open-RMF](https://www.open-rmf.org/) without reliance on hardware availability and reliability.
+This is a **lightweight** `HTTP` server running **a simulated robot**, that is useful for testing [Open-RMF](https://www.open-rmf.org/) without reliance on hardware availability and reliability2.
 
-# **Dependencies**
+# **Dependencies** 📚
 - python
 - pip
 
-# **Build**
+# **Build** 🔨
 
 ```bash
 git clone https://github.com/jh-chng/invisibot.git --depth 1 --single-branch --branch main && cd invisibot
@@ -24,19 +24,19 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-# **Run**
+# **Run** ⚙️
 
 ```
 python3 -m invisibot
 ```
 
-### **Verify**
+### **Verify** ✅
 
 Access endpoints on http://localhost:8080/docs.
 
 You should see something similar to what is shown below:
 ![](img/swagger_ui.png)
 
-### **Maintainer(s)**
+### **Maintainer(s)** 👓
 
 - [jn-chng](https://github.com/jh-chng)
