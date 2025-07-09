@@ -13,11 +13,11 @@ git clone https://github.com/jh-chng/invisibot.git --depth 1 --single-branch --b
 ```
 
 ```bash
-virtualenv -p python3 venv
+python3 -m venv env
 ```
 
 ```bash
-source venv/bin/activate
+source env/bin/activate
 ```
 
 ```bash
