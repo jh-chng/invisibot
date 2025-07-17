@@ -46,8 +46,6 @@ class ApiServer:
                 f"Invisibot [ {robot_name} ] spawned @ [ {x}, {y}, {yaw} ] at [ {floor} ]"
             )
 
-        self.throwaway = None
-
         print(
             f"Please access Invisibot Fleet API Server at [ http://localhost:{port}/docs ]"
         )
