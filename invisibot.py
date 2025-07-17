@@ -71,18 +71,9 @@ class ApiServer:
 
         @app.get("/status", response_model=Response)
         async def status(robot_name: str):
-            # print(f"/status called {robot_name}")
-
-            doesRobotExist = False
-            selected_ib = None
-            for ib in self.ib_fleet:
-                if ib.name == robot_name:
-                    doesRobotExist = True
-                    selected_ib = ib
-                    break
-            
             response = {}
-            if not doesRobotExist:
+            selected_ib = self.check_if_robot_exists(robot_name)
+            if selected_ib is None:
                 response = {
                     "success": False,
                     "msg": f"Error - [ {robot_name} ] does not exist.",
@@ -143,6 +134,15 @@ class ApiServer:
             port=port,
             log_level="warning",
         )
+
+    def check_if_robot_exists(self, robot_name: str):
+        # Determine if requested robot exists
+        selected_ib = None
+        for ib in self.ib_fleet:
+            if ib.name == robot_name:
+                selected_ib = ib
+                return selected_ib
+        return None    
 
 
 def main():
