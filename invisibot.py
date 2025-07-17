@@ -69,15 +69,15 @@ class ApiServer:
             data["robot_name"] = self.robot_name
             data["map_name"] = self.ib.floor
             data["position"] = {
-                "x": self.ib.self_x,
-                "y": self.ib.self_y,
-                "yaw": self.ib.self_yaw,
+                "x": self.ib.current_x,
+                "y": self.ib.current_y,
+                "yaw": self.ib.current_yaw,
             }
             data["battery"] = 100.0
-            data["completed_request"] = not self.ib.move_flag
+            data["completed_request"] = not self.ib.is_moving
             data["destination_arrival"] = None
-            data["curr_path_size"] = self.ib.curr_path
-            data["last_completed_request"] = self.ib.cmd_id
+            data["curr_path_size"] = self.ib.current_path_segment
+            data["last_completed_request"] = self.ib.current_command_id
 
             response["data"] = data
 
