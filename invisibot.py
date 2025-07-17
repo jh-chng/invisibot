@@ -109,30 +109,58 @@ class ApiServer:
 
         @app.post("/map_switch", response_model=Response)
         async def map_switch(robot_name: str, map: str):
-            print(f"/map_switch called {robot_name} from {self.ib.floor}->{map}")
-            response = {
-                "success": False,
-                "msg": "Beep Boop Beep",
-            }
-            self.ib.floor = map
+            response = {}
+            selected_ib = self.check_if_robot_exists(robot_name)
+            if selected_ib is None:
+                response = {
+                    "success": False,
+                    "msg": f"Error - [ {robot_name} ] does not exist. Switch map - [ FAIL ]",
+                }
+                return response
+            
+            print(f"/map_switch called {robot_name} from {selected_ib.floor} -> {map}")
+
             response["success"] = True
+            response["msg"] = "Switch map - [ SUCCESS ]"
+            selected_ib.floor = map
+
             return response
 
         @app.post("/stop", response_model=Response)
-        async def stop():
+        async def stop(robot_name: str):
+
+            response = {}
+            selected_ib = self.check_if_robot_exists(robot_name)
+            if selected_ib is None:
+                response = {
+                    "success": False,
+                    "msg": f"Error - [ {robot_name} ] does not exist. Switch map - [ FAIL ]",
+                }
+                return response
+
             response = {"data": {}, "success": False, "msg": ""}
             response["success"] = True
-            self.ib.stop()
+            selected_ib.stop()
             print("Freezing all APIs to simulate a connection loss")
             time.sleep(30)
             print(f"Stop API called")
             return response
 
         @app.post("/resume", response_model=Response)
-        async def resume():
+        async def resume(robot_name: str):
+
+            response = {}
+            selected_ib = self.check_if_robot_exists(robot_name)
+            if selected_ib is None:
+                response = {
+                    "success": False,
+                    "msg": f"Error - [ {robot_name} ] does not exist. Switch map - [ FAIL ]",
+                }
+                return response
+
             response = {"data": {}, "success": False, "msg": ""}
             response["success"] = True
-            self.ib.resume()
+            selected_ib.resume()
             return response
 
         uvicorn.run(
