@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import json
 import time
 import argparse
 
@@ -28,16 +29,27 @@ class ApiServer:
 
     """
 
-    def __init__(self, robot_name, port, x, y, yaw, floor) -> None:
-        self.ib = Invisibot(x, y, yaw, floor)
-        self.robot_name = robot_name
+    def __init__(self, port, robots_data) -> None:
+        self.ib_fleet = []
+        for robot_name in robots_data:
+
+            x = robots_data[robot_name]["pose"]["x"]
+            y = robots_data[robot_name]["pose"]["y"]
+            yaw = robots_data[robot_name]["pose"]["yaw"]
+            floor = robots_data[robot_name]["map_name"]
+            
+            robot = Invisibot(robot_name,x,y,yaw,floor)
+
+            self.ib_fleet.append(robot)
+
+            print(
+                f"Invisibot [ {robot_name} ] spawned @ [ {x}, {y}, {yaw} ] at [ {floor} ]"
+            )
+
         self.throwaway = None
 
         print(
-            f"Invisibot [ {robot_name} ] spawned @ [ {x},{y},{yaw} ] at [ {floor} ] with port [ {port} ]"
-        )
-        print(
-            f"Please access [ {robot_name} ] API Server at [ http://localhost:8080/docs ]"
+            f"Please access Invisibot Fleet API Server at [ http://localhost:{port}/docs ]"
         )
 
         @app.post("/navigate_to_pose", response_model=Response)
@@ -58,28 +70,42 @@ class ApiServer:
             return response
 
         @app.get("/status", response_model=Response)
-        async def status():
+        async def status(robot_name: str):
             # print(f"/status called {robot_name}")
-            response = {
-                "success": False,
-                "msg": "Beep Boop Beep",
-            }
+
+            doesRobotExist = False
+            selected_ib = None
+            for ib in self.ib_fleet:
+                if ib.name == robot_name:
+                    doesRobotExist = True
+                    selected_ib = ib
+                    break
+            
+            response = {}
+            if not doesRobotExist:
+                response = {
+                    "success": False,
+                    "msg": f"Error - [ {robot_name} ] does not exist.",
+                }
+                return response
 
             data = {}
-            data["robot_name"] = self.robot_name
-            data["map_name"] = self.ib.floor
+            data["robot_name"] = selected_ib.name
+            data["map_name"] = selected_ib.floor
             data["position"] = {
-                "x": self.ib.current_x,
-                "y": self.ib.current_y,
-                "yaw": self.ib.current_yaw,
+                "x": selected_ib.current_x,
+                "y": selected_ib.current_y,
+                "yaw": selected_ib.current_yaw,
             }
             data["battery"] = 100.0
-            data["completed_request"] = not self.ib.is_moving
+            data["completed_request"] = not selected_ib.is_moving
             data["destination_arrival"] = None
-            data["curr_path_size"] = self.ib.current_path_segment
-            data["last_completed_request"] = self.ib.current_command_id
+            data["curr_path_size"] = selected_ib.current_path_segment
+            data["last_completed_request"] = selected_ib.current_command_id
 
             response["data"] = data
+            response["success"] = True
+            response["msg"] = "Beep Boop Beep"
 
             return response
 
@@ -125,27 +151,26 @@ def main():
     )
 
     parser.add_argument(
-        "-r", "--robot_name", type=str, default="robot1", help="Name of the robot"
-    )
-    parser.add_argument(
         "-p", "--port", type=int, default=8080, help="Port to run the API server on"
-    )
-    parser.add_argument(
-        "-l",
-        "--location",
-        type=str,
-        default="0.0,0.0,0.0",
-        help="Comma seperated location of the robot (x,y,yaw)",
-    )
-    parser.add_argument(
-        "-m", "--map", type=str, default="L1", help="Current Map of the robot"
     )
     args = parser.parse_args()
 
+    ROBOTS_DATA = None
+    with open('robots.json', 'r') as file:
+        ROBOTS_DATA = json.load(file)
+    
+    assert ROBOTS_DATA is not None
+
+    ROBOT_NAME = None
+    ROBOT_DATA = None
+
+    print(f"ROBOTS_DATA = {ROBOTS_DATA}")
+
     try:
         ApiServer(
-            args.robot_name, args.port, *map(float, args.location.split(",")), args.map
-        ).ib.start()
+            port=args.port,
+            robots_data=ROBOTS_DATA
+        )
 
     except Exception as e:
 

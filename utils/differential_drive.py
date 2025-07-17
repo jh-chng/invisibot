@@ -14,7 +14,7 @@ class Invisibot:
     """
 
     def __init__(
-        self, x: float = 0.0, y: float = 0.0, yaw: float = 0.0, floor: str = "L1"
+        self, name: str, x: float = 0.0, y: float = 0.0, yaw: float = 0.0, floor: str = "L1"
     ):
         """
         Initializes the Invisibot with its starting position and other parameters.
@@ -25,6 +25,7 @@ class Invisibot:
             yaw (float): Initial yaw (orientation) of the robot in radians.
             floor (str): Initial floor level of the robot.
         """
+        self.name = name
         self.current_x = x
         self.current_y = y
         self.current_yaw = yaw
