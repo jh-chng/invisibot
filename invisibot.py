@@ -50,6 +50,14 @@ class ApiServer:
             f"Please access Invisibot Fleet API Server at [ http://localhost:{port}/docs ]"
         )
 
+        @app.get("/ping", response_model=Response)
+        async def status():
+            response = {}
+            response["success"] = True
+            response["msg"] = "Beep Boop Beep"
+
+            return response
+
         @app.post("/navigate_to_pose", response_model=Response)
         async def nav(robot_name: str, dest: Location):
             print(f"/navigate_to_pose called {robot_name} {dest}")
