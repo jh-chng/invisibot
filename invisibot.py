@@ -80,7 +80,7 @@ class ApiServer:
             temp_dest.destination = [dest]
             selected_ib.move(dest.index, temp_dest)
             response["success"] = True
-            reponse["msg"] = "Beep Boop Beep"
+            response["msg"] = "Beep Boop Beep"
 
             return response
 
