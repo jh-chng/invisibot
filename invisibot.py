@@ -53,18 +53,27 @@ class ApiServer:
         @app.post("/navigate_to_pose", response_model=Response)
         async def nav(robot_name: str, dest: Location):
             print(f"/navigate_to_pose called {robot_name} {dest}")
-            response = {
-                "success": False,
-                "msg": "Beep Boop Beep",
-            }
+
+            response = {}
+            selected_ib = self.check_if_robot_exists(robot_name)
+            if selected_ib is None:
+                response = {
+                    "success": False,
+                    "msg": f"Error - [ {robot_name} ] does not exist.",
+                }
+                return response
+
             temp_dest = Request()
             temp_dest.map_name = dest.level_name
+
             if dest.level_name is None:
                 print("Target floor name is None, using default floor")
-                temp_dest.map_name = self.ib.floor
+                temp_dest.map_name = selected_ib.floor
             temp_dest.destination = [dest]
-            self.ib.move(dest.index, temp_dest)
+            selected_ib.move(dest.index, temp_dest)
             response["success"] = True
+            reponse["msg"] = "Beep Boop Beep"
+
             return response
 
         @app.get("/status", response_model=Response)

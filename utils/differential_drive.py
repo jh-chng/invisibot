@@ -143,7 +143,7 @@ class Invisibot:
                 self.current_y = original_y + time_elapsed_since_start * self.velocity_y
 
                 print(
-                    f"Robot Position @ X: {self.current_x:.3f} Y: {self.current_y:.3f} | "
+                    f"Robot [ {self.name} ] Position @ X: {self.current_x:.3f} Y: {self.current_y:.3f} | "
                     f"Paths Remaining: {len(self.current_path_segment)}"
                 )
 
