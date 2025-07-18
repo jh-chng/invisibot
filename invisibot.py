@@ -204,11 +204,6 @@ def main():
     
     assert ROBOTS_DATA is not None
 
-    ROBOT_NAME = None
-    ROBOT_DATA = None
-
-    print(f"ROBOTS_DATA = {ROBOTS_DATA}")
-
     try:
         ApiServer(
             port=args.port,
