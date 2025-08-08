@@ -59,3 +59,18 @@ class Request(BaseModel):
     map_name: Optional[str] = None
     task: Optional[str] = None
     destination: List[Location] = None
+
+class RobotUpdateData:
+    ''' Update data for a single robot. '''
+    def __init__(self,
+                 robot_name: str,
+                 map: str,
+                 position: list[float],
+                 battery_soc: float,
+                 requires_replan: bool | None = None):
+        self.robot_name = robot_name
+        self.position = position
+        self.map = map
+        self.battery_soc = battery_soc
+        self.requires_replan = requires_replan    
+
